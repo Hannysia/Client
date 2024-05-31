@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" prefHeight="266.0" prefWidth="450.0" spacing="10.0" styleClass="container" stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="annaKnysh.clientside.controller.LoginController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <HBox spacing="10.0" styleClass="addressField">
+        <Label prefHeight="17.0" prefWidth="169.0" text="IP-адреса сервера:">
+            <font>
+                <Font size="14.0" />
+            </font></Label>
+        <TextField fx:id="serverIPField" prefHeight="25.0" prefWidth="223.0" promptText="IP-адреса сервера" styleClass="textField" />
+    </HBox>
+
+    <HBox spacing="10.0" styleClass="usernameField">
+        <Label prefHeight="17.0" prefWidth="169.0" text="User name:">
+            <font>
+                <Font size="14.0" />
+            </font></Label>
+        <TextField fx:id="usernameField" prefHeight="25.0" prefWidth="223.0" promptText="User name" styleClass="textField" />
+    </HBox>
+
+    <HBox alignment="BOTTOM_RIGHT" prefHeight="19.0" prefWidth="417.0" spacing="20.0" styleClass="buttons">
+        <Button prefHeight="45.0" prefWidth="82.0" styleClass="cancelButton" text="СКАСУВАТИ">
+            <font>
+                <Font size="11.0" />
+            </font></Button>
+        <Button prefHeight="25.0" prefWidth="58.0"  onAction="#handleLoginButton" styleClass="nextButton" text="ДАЛІ">
+            <font>
+                <Font size="11.0" />
+            </font></Button>
+    </HBox>
+</VBox>
