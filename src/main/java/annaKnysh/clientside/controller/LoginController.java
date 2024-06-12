@@ -19,10 +19,6 @@ public class LoginController {
         if (username.isEmpty()) {
             showAlert("Validation Error", "Login fields must be filled.");
         }
-        if (serverIp.isEmpty()) {
-            serverIp="127.0.0.1:12345";
-        }
-
         try {
             ClientApp.initializeClient(serverIp, username);
         } catch (NumberFormatException e) {

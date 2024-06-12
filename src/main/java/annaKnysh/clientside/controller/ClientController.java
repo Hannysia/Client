@@ -14,6 +14,7 @@ import annaKnysh.clientside.xml.message.MessagesResponse;
 import jakarta.xml.bind.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -44,6 +45,8 @@ public class ClientController implements IClientListener, IClientController {
 
     @FXML
     private ScrollPane chatScrollPane;
+    @FXML
+    private Button sendButton;
 
     private IClient client; // Використання інтерфейсу IClient
     public TextField newChatUsername;
@@ -97,6 +100,7 @@ public class ClientController implements IClientListener, IClientController {
             if (newSelection != null) {
                 currentChatId = newSelection.chatId();
                 getChatMessages(newSelection.chatId());
+                addMessageField();
             }
         });
 
@@ -130,6 +134,28 @@ public class ClientController implements IClientListener, IClientController {
         }
     }
 
+
+    private void addMessageField() {
+        // Find the HBox container for the message field and send button
+        HBox messageFieldContainer = (HBox) chatScrollPane.getParent().lookup(".messageFieldCont");
+
+        // Clear existing children to avoid duplicates
+        messageFieldContainer.getChildren().clear();
+
+        // Create new message field
+        messageField = InterfaceFactory.createMessageField();
+
+        // Create new send button
+        sendButton = new Button("Send");
+        sendButton.setMaxWidth(50);
+        sendButton.setMinWidth(50);
+        sendButton.setOnAction(event -> onSend());
+
+        // Add message field and send button to the container
+        messageFieldContainer.getChildren().addAll(messageField, sendButton);
+    }
+
+
     // Відображення повідомлення
     public void displayMessage(Message message) {
         LocalDateTime timestamp = message.getTimestamp();
@@ -152,6 +178,7 @@ public class ClientController implements IClientListener, IClientController {
                 displayMessage(message);
             }
         }
+        addMessageField();
     }
     @Override
     public void onMessage(String xmlMessage) {
@@ -160,7 +187,7 @@ public class ClientController implements IClientListener, IClientController {
                 handleChatList(xmlMessage);
             } else if (xmlMessage.contains("<message>")) {
                 handleInputMessage(xmlMessage);
-            } else if (xmlMessage.contains("<authResponse")) {
+            } else if (xmlMessage.contains("<authenticationAnswer")) {
                 handleAuthResponse(xmlMessage);
             } else if (xmlMessage.contains("<messagesResponse>")) {
                 handleMessagesResponse(xmlMessage);
@@ -323,6 +350,7 @@ public class ClientController implements IClientListener, IClientController {
                 String requestXml = XMLUtility.toXML(deleteRequest);
                 client.send(requestXml);
                 chatListView.getItems().remove(selectedIdx);
+                chatBox.getChildren().clear();
             } catch (JAXBException e) {
                 System.out.println(e);
             }

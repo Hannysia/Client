@@ -66,11 +66,6 @@ public class Client extends WebSocketClient implements IClient {
     private void notifyListeners(String message) {
         listeners.forEach(listener -> listener.onMessage(message));
     }
-
-    @Override
-    public Set<IClientListener> getListeners() {
-        return listeners;
-    }
     //endregion
 
     //region Message Handling
@@ -98,7 +93,6 @@ public class Client extends WebSocketClient implements IClient {
             AuthenticationQuery authenticationQuery = new AuthenticationQuery(username);
             String xmlMessage = XMLUtility.toXML(authenticationQuery);
             send(xmlMessage);
-            System.out.println(xmlMessage);
         } catch (JAXBException e) {
             System.err.println("Error serializing auth request: " + e.getMessage());
         }
